@@ -1,0 +1,18 @@
+{
+    "user_id": "0",
+    "upgrade": {
+        "sequence_id": "0",
+        "command": "upgrade_history",
+        "src_id": 2,
+        "firmware_optional": {
+            "firmware": {
+                "version": "01.01.01.00",
+                "url": "https://public-cdn.bambulab.cn/upgrade/device/N2S/01.01.01.00/product/d2863c89d0/ota-n2s_v01.01.01.00-20231222183908.json.sig",
+                "force_update": false,
+                "description": "",
+                "status": "release"
+            },
+            "ams": []
+        }
+    }
+}

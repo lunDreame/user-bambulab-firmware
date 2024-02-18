@@ -1,0 +1,18 @@
+{
+    "user_id": "0",
+    "upgrade": {
+        "sequence_id": "0",
+        "command": "upgrade_history",
+        "src_id": 2,
+        "firmware_optional": {
+            "firmware": {
+                "version": "01.07.01.00",
+                "url": "https://public-cdn.bambulab.cn/upgrade/device/BL-P001/01.07.01.00/product/c6c10c944a/ota-v01.07.01.00-20231222194536.json.sig",
+                "force_update": false,
+                "description": "## Version OTA 01.07.01.00:\n### Improvements\n1. Optimized the communication between printer and cloud service to provide faster notification push.\n### Bugs fixed\n1. Resolved the bug where the selection of a region after update would be greyed out.\n2. Resolved the bug where the user cannot select the support filament(Support-W and Support-G) from the printer scren.\n### Remaining issues\n1. The custom automatic flow calibration files with custom names can not be saved when powered off.",
+                "status": "release"
+            },
+            "ams": []
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "user_id": "0",
+    "upgrade": {
+        "sequence_id": "0",
+        "command": "upgrade_history",
+        "src_id": 2,
+        "firmware_optional": {
+            "firmware": {
+                "version": "01.05.02.00",
+                "url": "https://public-cdn.bambulab.cn/upgrade/device/C12/01.05.02.00/product/487870eedd/ota-p003_v01.05.02.00-20240122111135.json.sig",
+                "force_update": false,
+                "description": "",
+                "status": "release"
+            },
+            "ams": []
+        }
+    }
+}
