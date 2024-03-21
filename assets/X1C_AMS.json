@@ -12,7 +12,23 @@
                 "description": "## Version OTA 01.07.01.00:\n### Improvements\n1. Optimized the communication between printer and cloud service to provide faster notification push.\n### Bugs fixed\n1. Resolved the bug where the selection of a region after update would be greyed out.\n2. Resolved the bug where the user cannot select the support filament(Support-W and Support-G) from the printer scren.\n### Remaining issues\n1. The custom automatic flow calibration files with custom names can not be saved when powered off.",
                 "status": "release"
             },
-            "ams": []
+            "ams": [
+                {
+                    "dev_model_name": "BL-A001",
+                    "address": 0,
+                    "device_id": "",
+                    "firmware": [
+                        {
+                            "version": "00.00.06.40",
+                            "force_update": false,
+                            "url": "https://public-cdn.bambulab.com/upgrade/device/BL-A001/00.00.06.40/product/ams-ota_v00.00.06.40-20230906131441.json.sig",
+                            "description": "",
+                            "status": "testing"
+                        }
+                    ],
+                    "firmware_current": null
+                }
+            ]
         }
     }
 }
