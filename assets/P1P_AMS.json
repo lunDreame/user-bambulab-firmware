@@ -1,0 +1,34 @@
+{
+    "user_id": "0",
+    "upgrade": {
+        "sequence_id": "0",
+        "command": "upgrade_history",
+        "src_id": 2,
+        "firmware_optional": {
+            "firmware": {
+                "version": "01.05.02.00",
+                "force_update": false,
+                "url": "https://public-cdn.bambulab.com/upgrade/device/C11/01.05.02.00/product/487870eedd/ota-p003_v01.05.02.00-20240122111135.json.sig",
+                "description": "## Version OTA 01.05.02.00:\n### 【Feature Optimizations】\n1. Refine the log system and remove all debug logs that are not necessary for end-users.\n2. Added a new error code to detect SD card reading errors during printing.\n3. Added a new handy pop-up message to prompt \"Print Paused\" when pausing the print (turn on system notifications to receive the message push).\n4. Automatic nozzle size and type verification in conjunction with Bambu Studio. The nozzle type can be set on the accessory list page in the settings menu. \n### 【Bug fixes】\n1. Addressed intermittent AMS retraction failures.\n2. Resolved the problem of repeated startup failures.\n3. Fixed the abnormal display of user-defined filaments in Bambu Studio's filament settings.\n4. Fixed the issue where the newly generated timelapse failed to refresh when accessing media files from BambuStudio.",
+                "status": "release"
+            },
+            "ams": [
+                {
+                    "dev_model_name": "BL-A001",
+                    "address": 0,
+                    "device_id": "",
+                    "firmware": [
+                        {
+                            "version": "00.00.06.40",
+                            "force_update": false,
+                            "url": "https://public-cdn.bambulab.com/upgrade/device/BL-A001/00.00.06.40/product/ams-ota_v00.00.06.40-20230906131441.json.sig",
+                            "description": "",
+                            "status": "testing"
+                        }
+                    ],
+                    "firmware_current": null
+                }
+            ]
+        }
+    }
+}
