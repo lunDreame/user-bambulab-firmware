@@ -9,7 +9,7 @@ https://cafe.naver.com/bambulab/3353
 - A1 MINI
 - A1
 - X1C
-- X1 (정보 필요)
+- X1 
 
 **정보 제공이 필요한 경우**:
 
