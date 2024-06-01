@@ -26,6 +26,9 @@
                             "status": "testing"
                         }
                     ],
+                    "firmware_current": null
+                }
+            ]
         }
     }
 }
