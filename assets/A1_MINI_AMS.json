@@ -6,8 +6,8 @@
         "src_id": 2,
         "firmware_optional": {
             "firmware": {
-                "version": "01.01.03.00",
-                "url": "https://public-cdn.bambulab.cn/upgrade/device/N1/01.01.03.00/product/9ec2391154/ota-n1_v01.01.03.00-20231222183921.json.sig",
+                "version": "01.02.02.40",
+                "url": "https://public-cdn.bblmw.com/upgrade/device/N1/01.02.02.40/product/eafc8722b4/ota-n1_v01.02.02.40-20240530094117.json.sig",
                 "force_update": false,
                 "description": "",
                 "status": "release"
