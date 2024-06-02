@@ -6,10 +6,10 @@
         "src_id": 2,
         "firmware_optional": {
             "firmware": {
-                "version": "01.08.00.00",
-                "url": "https://public-cdn.bblmw.com/upgrade/device/BL-P001/01.08.00.00/product/45ea644d25/ota-v01.08.00.00-20240506131039.json.sig",
+                "version": "01.02.02.00",
+                "url": "https://public-cdn.bblmw.com/upgrade/device/N2S/01.02.02.00/product/1b7d7acc4c/ota-n2s_v01.02.02.00-20240515101822.json.sig",
                 "force_update": false,
-                "description": "",
+                "description": "# Version OTA 01.02.02.00:\n\n## Improvement\n- Improved printing stability",
                 "status": "release"
             },
             "ams": [
