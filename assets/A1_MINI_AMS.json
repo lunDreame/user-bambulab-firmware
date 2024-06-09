@@ -12,23 +12,7 @@
                 "description": "",
                 "status": "release"
             },
-            "ams": [
-                {
-                    "dev_model_name": "BL-A001",
-                    "address": 0,
-                    "device_id": "",
-                    "firmware": [
-                        {
-                            "version": "00.00.06.40",
-                            "force_update": false,
-                            "url": "https://public-cdn.bambulab.com/upgrade/device/BL-A001/00.00.06.40/product/ams-ota_v00.00.06.40-20230906131441.json.sig",
-                            "description": "",
-                            "status": "testing"
-                        }
-                    ],
-                    "firmware_current": null
-                }
-            ]
+            "ams": []
         }
     }
 }
