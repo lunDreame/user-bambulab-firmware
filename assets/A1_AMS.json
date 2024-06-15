@@ -12,23 +12,7 @@
                 "description": "Version OTA 01.03.00.00:\n\u3010New features\u3011\n1. Third-party filament support\n  a. Users can create and manage custom filament profiles in Studio. These custom filaments can then be selected in Device filament slots\n2. Expedite partial bed-leveling (in conjunction with Bambu Studio V1.9.2 and above)\n  a. Run bed-leveling according to the outer contour of the sliced models, instead of the whole build plate area.\n3. Added notification sound when the printer is working abnormally\n4. Improved color display for gradient and dual-color filaments\n5. Improved manual flow calibration parameters management\n  a. Auto-save the manual flow calibration parameters\n  b. Support creating & managing new PA parameters\n  c. Support setting PA configuration files on the filament settings page\n6. Non-LAN binding via PIN code on the studio side (in conjunction with Bambu Studio v01.9.2 and above)\n  a. Users can bind A1 devices to the computer that is not on the same local area network (LAN) using a PIN code on the studio side\n7. Added low ambient temperature protection, prohibited operation if the ambient temperature is below -5 \u2103 \u3010A1 only\u3011\n\n\u3010Feature Optimizations\u3011\n1. Improved the print time calculation logic, support inclusion of abnormal stop time\n2. Optimized the wording and interface in error code pop-ups\n3. Optimized nozzle clumping detection logic\n4. Added UI interface explanation of the impacts and precautions of nozzle clumping detection\n\n\u3010Bug fixes\u3011\n1. Fixed the lack of notification on Handy when the AMS causes a print pause\n2. Fix the issue of switching ON/OFF delay video gradients during the printing process\n3. Fix the intermittent homing failed issue\n4. Fix the false alarm of nozzle clumping detection",
                 "status": "release"
             },
-            "ams": [
-                {
-                    "dev_model_name": "BL-A001",
-                    "address": 0,
-                    "device_id": "",
-                    "firmware": [
-                        {
-                            "version": "00.00.06.40",
-                            "force_update": false,
-                            "url": "https://public-cdn.bambulab.com/upgrade/device/BL-A001/00.00.06.40/product/ams-ota_v00.00.06.40-20230906131441.json.sig",
-                            "description": "",
-                            "status": "testing"
-                        }
-                    ],
-                    "firmware_current": null
-                }
-            ]
+            "ams": []
         }
     }
 }
