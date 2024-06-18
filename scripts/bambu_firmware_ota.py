@@ -38,7 +38,7 @@ class BambuLabOTA:
                 print("BambuLab Cloud Login Successful")
                 self.get_user_devices()
             else:
-                print(f"BambuLab Cloud Login Failed: {response.json()}")
+                print("BambuLab Cloud Login Failed")
         except requests.RequestException as e:
             print(f"An error occurred during login: {e}")
 
@@ -56,7 +56,7 @@ class BambuLabOTA:
             print("No devices found.")
             return
         device_list_str = ", ".join(f"{i+1}. {d['dev_id']}" for i, d in enumerate(devices))
-        print(f"List of Binded Devices: {device_list_str}")
+        #print(f"List of Binded Devices: {device_list_str}")
         try:
             selected_index = 0 # int(input("Please select a device index: ")) - 1
             self.device_id = devices[selected_index]["dev_id"]
@@ -74,7 +74,7 @@ class BambuLabOTA:
         except requests.RequestException as e:
             print(f"An error occurred while getting the device version: {e}")
 
-    def construct_firmware_optional(self, device_version_info: Dict) -> (str, Dict):
+    def construct_firmware_optional(self, device_version_info: Dict) -> (str, Dict): # type: ignore
         device_id_map = {
             "00M": "X1C",
             "00W": "X1",
@@ -126,8 +126,6 @@ class BambuLabOTA:
         try:
             contents = repo.get_contents(file_path, ref="main")
             old_content = contents.decoded_content.decode("utf-8")
-            print(f"new_content: {new_content}")
-            print(f"old_content: {old_content}")
 
             if new_content == old_content:
                 print("No changes detected in the firmware optional JSON.")
