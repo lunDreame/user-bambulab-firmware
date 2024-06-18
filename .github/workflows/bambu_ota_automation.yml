@@ -30,4 +30,4 @@ jobs:
       run: pip install requests PyGithub
 
     - name: Run Bambu Lab OTA Script
-      run: python bambu_firmware_ota.py
+      run: python scripts/bambu_firmware_ota.py
