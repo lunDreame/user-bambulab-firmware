@@ -58,7 +58,7 @@ class BambuLabOTA:
         device_list_str = ", ".join(f"{i+1}. {d['dev_id']}" for i, d in enumerate(devices))
         print(f"List of Binded Devices: {device_list_str}")
         try:
-            selected_index = int(input("Please select a device index: ")) - 1
+            selected_index = 0 # int(input("Please select a device index: ")) - 1
             self.device_id = devices[selected_index]["dev_id"]
             self.get_device_version()
         except (IndexError, ValueError):
