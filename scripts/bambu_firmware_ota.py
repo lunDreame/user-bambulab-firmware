@@ -126,6 +126,9 @@ class BambuLabOTA:
         try:
             contents = repo.get_contents(file_path, ref="main")
             old_content = contents.decoded_content.decode("utf-8")
+            print(f"new_content: {new_content}")
+            print(f"old_content: {old_content}")
+
             if new_content == old_content:
                 print("No changes detected in the firmware optional JSON.")
                 return
