@@ -7,8 +7,8 @@
 - A1
 
 ## 업데이트 방법
-방법 1. [네이버 카페 글 참고](https://cafe.naver.com/bambulab/3353)
-방법 2. [펌웨어 업데이트용 사이트](https://bambu.pages.dev)
+1. [네이버 카페 글 참고](https://cafe.naver.com/bambulab/3353)  
+2. [펌웨어 업데이트용 사이트](https://bambu.pages.dev)  
 
 ## 정보 제공 방법
 1. [이 Colab 노트북](https://colab.research.google.com/drive/1O0UY-EI508kTdugvz3_FvxBXtQuMXBXF?usp=sharing)을 사용하여 정보를 제공해 주세요.
