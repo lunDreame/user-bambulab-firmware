@@ -19,6 +19,10 @@
 ## 알려진 문제점
 - X1C, X1CC 모델의 경우 업데이트 실패가 발생하고 있습니다. 해당 기기가 없어 대응이 불투명 합니다.
 
+## 펌웨어 정보 기여자 목록
+- AMT -> a1 mini
+- Marida -> a1
+
 ---
 
 # Bambu Lab Printer Firmware Repository
@@ -41,3 +45,7 @@
 
 ## Known Issues
 - Update failures are occurring for X1C and X1CC models. Due to the lack of access to these devices, addressing this issue remains uncertain.
+
+## Firmware information Contributors
+- AMT -> a1 mini
+- Marida -> a1
