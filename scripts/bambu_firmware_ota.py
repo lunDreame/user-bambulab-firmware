@@ -1,7 +1,7 @@
 import os
 import requests
 import json
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Tuple
 from github import Github, InputGitAuthor, GithubException
 
 class BambuLabOTA:
@@ -10,7 +10,7 @@ class BambuLabOTA:
         self.password = os.getenv("BAMBU_PASSWORD")
         self.github_token = os.getenv("GITHUB_TOKEN")
         self.repo_name = "lunDreame/user-bambulab-firmware"
-        self.author_name = "lunDreame"
+        self.author_name = "lunDreame34"
         self.author_email = "lundreame34@gmail.com"
         self.login_url = "https://bambulab.com/api/sign-in/form"
         self.api_url = "https://api.bambulab.com"
@@ -18,15 +18,6 @@ class BambuLabOTA:
         self.access_token = None
         self.github = Github(self.github_token)
 
-        if not self.account or not self.password or not self.github_token:
-            self.prompt_user_account()
-        else:
-            self.login()
-
-    def prompt_user_account(self):
-        self.account = input("Please enter your Bambu Lab cloud account: ")
-        self.password = input("Please enter the password for the Bambu Lab Cloud: ")
-        self.github_token = input("Please enter your GitHub token: ")
         self.login()
 
     def login(self):
@@ -35,10 +26,10 @@ class BambuLabOTA:
             response.raise_for_status()
             self.access_token = response.cookies.get("token")
             if response.status_code == 200 and not response.json().get("tfaKey"):
-                print("BambuLab Cloud Login Successful")
+                print("Login Successful.")
                 self.get_user_devices()
             else:
-                print("BambuLab Cloud Login Failed")
+                print("Login Failed.")
         except requests.RequestException as e:
             print(f"An error occurred during login: {e}")
 
@@ -55,14 +46,12 @@ class BambuLabOTA:
         if not devices:
             print("No devices found.")
             return
-        device_list_str = ", ".join(f"{i+1}. {d['dev_id']}" for i, d in enumerate(devices))
-        #print(f"List of Binded Devices: {device_list_str}")
         try:
-            selected_index = 0 # int(input("Please select a device index: ")) - 1
+            selected_index = 0
             self.device_id = devices[selected_index]["dev_id"]
             self.get_device_version()
-        except (IndexError, ValueError):
-            print("Invalid index selected.")
+        except (IndexError, ValueError) as e:
+            print(f"Invalid index selected: {e}")
 
     def get_device_version(self):
         try:
@@ -70,11 +59,17 @@ class BambuLabOTA:
             response.raise_for_status()
             device_version_info = response.json()
             printer_name, firmware_optional = self.construct_firmware_optional(device_version_info)
-            self.compare_and_create_pull_request(printer_name, firmware_optional)
+            
+            for version in ("C11", "C12"):
+                firmware_optional_copy = firmware_optional.copy()
+                firmware_optional_copy["upgrade"]["firmware_optional"]["firmware"]["url"] = \
+                firmware_optional_copy["upgrade"]["firmware_optional"]["firmware"]["url"].replace("C11", version)
+                
+                self.compare_and_create_pull_request(printer_name, firmware_optional_copy)
         except requests.RequestException as e:
             print(f"An error occurred while getting the device version: {e}")
 
-    def construct_firmware_optional(self, device_version_info: Dict) -> (str, Dict): # type: ignore
+    def construct_firmware_optional(self, device_version_info: Dict) -> Tuple[str, Dict]:
         device_id_map = {
             "00M": "X1C",
             "00W": "X1",
@@ -120,37 +115,66 @@ class BambuLabOTA:
 
     def compare_and_create_pull_request(self, printer_name: str, firmware_optional: Dict):
         new_content = json.dumps(firmware_optional, indent=4)
+        new_ota_version = json.loads(new_content)["upgrade"]["firmware_optional"]["firmware"]["version"]
         file_path = f"assets/{printer_name}_AMS.json"
         repo = self.github.get_repo(self.repo_name)
+        branch_name = "schedule-update"
 
         try:
             contents = repo.get_contents(file_path, ref="main")
             old_content = contents.decoded_content.decode("utf-8")
+            old_ota_version = json.loads(old_content)["upgrade"]["firmware_optional"]["firmware"]["version"]
 
-            if new_content == old_content:
-                print("No changes detected in the firmware optional JSON.")
+            if new_ota_version == old_ota_version:
+                print("No changes detected in the OTA version.")
                 return
             else:
-                print("Changes detected, creating a pull request.")
-        except GithubException:
-            print("File does not exist, creating a new one.")
-
-        branch_name = "schedule-update"
-        try:
-            main_ref = repo.get_git_ref("heads/main")
-            repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=main_ref.object.sha)
+                print("Changes detected, updating file and creating a pull request.")
+                self.update_file(repo, file_path, new_content, contents.sha, branch_name)
         except GithubException as e:
-            print(f"Error creating branch: {e}")
+            if e.status == 404:
+                print("File does not exist, creating a new one.")
+                try:
+                    self.create_branch(repo, branch_name)
+                    self.create_file(repo, file_path, new_content, branch_name)
+                except GithubException as e:
+                    print(f"Error creating branch or file: {e}")
+                    return
 
+        self.create_pull_request(repo, branch_name, printer_name)
+
+    def update_file(self, repo, file_path, content, sha, branch_name):
         try:
-            repo.create_file(
+            repo.update_file(
                 file_path,
-                f"Update {printer_name}_AMS JSON file",
-                new_content,
+                f"Update {file_path}",
+                content,
+                sha,
                 branch=branch_name,
                 author=InputGitAuthor(self.author_name, self.author_email)
             )
+            print(f"File {file_path} updated successfully.")
+        except GithubException as e:
+            print(f"Error updating file: {e}")
 
+    def create_file(self, repo, file_path, content, branch_name):
+        try:
+            main_ref = repo.get_git_ref("heads/main")
+            repo.create_git_ref(ref=f"refs/heads/{branch_name}", sha=main_ref.object.sha)
+            
+            repo.create_file(
+                file_path,
+                f"Create {file_path}",
+                content,
+                branch=branch_name,
+                author=InputGitAuthor(self.author_name, self.author_email)
+            )
+            print(f"File {file_path} created successfully.")
+        except GithubException as e:
+            print(f"Error creating file or branch: {e}")
+
+    def create_pull_request(self, repo, branch_name, printer_name):
+        try:
             repo.create_pull(
                 title=f"Update {printer_name}_AMS JSON file",
                 body=f"The {printer_name}_AMS JSON file has been updated.",
