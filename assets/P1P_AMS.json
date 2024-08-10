@@ -6,7 +6,7 @@
         "src_id": 2,
         "firmware_optional": {
             "firmware": {
-                "version": "01.06.01.00",
+                "version": "1.0.0",
                 "url": "https://public-cdn.bblmw.com/upgrade/device/C11/01.06.01.00/product/75254fee5f/ota-p003_v01.06.01.00-20240721190905.json.sig",
                 "force_update": false,
                 "description": "Version OTA 01.06.01.00\nFeature Optimization\n1. Optimized system stability.\nBug Fix\n1. Fixed intermittent time sync problem. \n2. Fixed intermittent manual calibration failure. \n3. Fixed a low chance flow calibration K factor not effective issue.",
@@ -19,7 +19,7 @@
                     "device_id": "",
                     "firmware": [
                         {
-                            "version": "00.00.06.40",
+                            "version": "00.00.06.45",
                             "force_update": false,
                             "url": "https://public-cdn.bambulab.com/upgrade/device/BL-A001/00.00.06.40/product/ams-ota_v00.00.06.40-20230906131441.json.sig",
                             "description": "",
