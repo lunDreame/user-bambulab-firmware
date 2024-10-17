@@ -145,6 +145,8 @@ class BambuLabOTA:
 
     def update_file(self, repo, file_path, content, sha, branch_name):
         try:
+            contents = repo.get_contents(file_path, ref="main")
+            sha = contents.sha
             repo.update_file(
                 file_path,
                 f"Update {file_path}",
