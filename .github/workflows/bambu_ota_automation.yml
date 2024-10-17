@@ -15,7 +15,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-    
+      
     env:
       BAMBU_ACCOUNT: ${{ secrets.BAMBU_ACCOUNT }}
       BAMBU_PASSWORD: ${{ secrets.BAMBU_PASSWORD }}
@@ -32,6 +32,16 @@ jobs:
 
     - name: Install Dependencies
       run: pip install requests PyGithub
+
+    - name: Check if branch exists
+      id: check-branch
+      run: |
+        if git ls-remote --heads origin schedule-update | grep schedule-update; then
+          echo "Branch exists"
+        else
+          git checkout -b schedule-update
+          git push origin schedule-update
+        fi
 
     - name: Run Bambu Lab OTA Script
       run: python scripts/bambu_firmware_ota.py
