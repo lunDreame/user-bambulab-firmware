@@ -11,7 +11,11 @@ on:
 jobs:
   run_bambu_lab_ota:
     runs-on: ubuntu-latest
-
+    
+    permissions:
+      contents: write
+      pull-requests: write
+    
     env:
       BAMBU_ACCOUNT: ${{ secrets.BAMBU_ACCOUNT }}
       BAMBU_PASSWORD: ${{ secrets.BAMBU_PASSWORD }}
