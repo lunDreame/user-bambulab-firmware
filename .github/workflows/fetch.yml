@@ -9,7 +9,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  fetch_firmware:
+  fetch:
     runs-on: ubuntu-latest
     env:
       BAMBU_ACCOUNT: ${{ secrets.BAMBU_ACCOUNT }}
@@ -32,4 +32,4 @@ jobs:
           commit-message: 'Firmware payload updated'
           branch: fetch-firmware-payload
           title: 'Firmware payload updated'
-          reviewers: lunDreame34
+          #reviewers: lunDreame34
