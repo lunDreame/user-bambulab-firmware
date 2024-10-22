@@ -62,7 +62,12 @@ class BambuLabOTA:
             return
         try:
             selected_index = 0
-            self.device_id = devices[selected_index]["dev_id"]
+            selected_device = devices[selected_index]
+            self.device_id = selected_device["dev_id"]
+            print(f"\n선택된 디바이스 정보:")
+            print(f"Device ID: {selected_device['dev_id']}")
+            print(f"Device Name: {selected_device.get('name', 'N/A')}")
+            print(f"Device Model: {selected_device.get('dev_model', 'N/A')}\n")
             self.get_device_version()
         except (IndexError, ValueError) as e:
             print(f"Invalid index selected: {e}")
@@ -79,12 +84,36 @@ class BambuLabOTA:
             )
             response.raise_for_status()
             device_version_info = response.json()
+            
+            print("\n펌웨어 정보:")
+            print("=" * 50)
+            devices = device_version_info.get("devices", [])
+            if devices:
+                device = devices[0]
+                print(f"Device Model: {device.get('dev_model', 'N/A')}")
+                print(f"Device ID: {device.get('dev_id', 'N/A')}")
+                
+                for firmware in device.get("firmware", []):
+                    print("\nFirmware Details:")
+                    print(f"Version: {firmware.get('version', 'N/A')}")
+                    print(f"Module: {firmware.get('module', 'N/A')}")
+                    print(f"Description: {firmware.get('description', 'N/A')}")
+                    print(f"URL: {firmware.get('url', 'N/A')}")
+                    print(f"Force Update: {firmware.get('force_update', False)}")
+                    print(f"Status: {firmware.get('status', 'N/A')}")
+            print("=" * 50)
+            print()
+            
             printer_name, firmware_optional = self.construct_firmware_optional(device_version_info)
             
             for version in ("C11", "C12"):
                 firmware_optional_copy = firmware_optional.copy()
                 firmware_optional_copy["upgrade"]["firmware_optional"]["firmware"]["url"] = \
                 firmware_optional_copy["upgrade"]["firmware_optional"]["firmware"]["url"].replace("C11", version)
+                
+                print(f"\n{version} 펌웨어 옵션:")
+                print(json.dumps(firmware_optional_copy, indent=4, ensure_ascii=False))
+                print("=" * 50)
                 
                 self.compare_and_create_pull_request(printer_name, firmware_optional_copy)
         except requests.RequestException as e:
@@ -100,6 +129,7 @@ class BambuLabOTA:
             "039": "A1"
         }
         printer_name = next((name for prefix, name in device_id_map.items() if self.device_id.startswith(prefix)), "Unknown")
+        print(f"\n프린터 모델: {printer_name}")
         
         firmware_info = device_version_info["devices"][0]["firmware"][0]
         firmware_optional = {
@@ -145,6 +175,10 @@ class BambuLabOTA:
             contents = repo.get_contents(file_path, ref="main")
             old_content = contents.decoded_content.decode("utf-8")
             old_ota_version = json.loads(old_content)["upgrade"]["firmware_optional"]["firmware"]["version"]
+
+            print(f"\n버전 비교:")
+            print(f"현재 버전: {old_ota_version}")
+            print(f"새 버전: {new_ota_version}")
 
             if new_ota_version == old_ota_version:
                 print("No changes detected in the OTA version.")
