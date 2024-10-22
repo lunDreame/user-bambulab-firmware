@@ -9,6 +9,11 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
 
+    env:
+      BAMBU_ACCOUNT: ${{ secrets.BAMBU_ACCOUNT }}
+      BAMBU_PASSWORD: ${{ secrets.BAMBU_PASSWORD }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v3
 
