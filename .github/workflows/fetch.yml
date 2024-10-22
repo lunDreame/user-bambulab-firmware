@@ -1,0 +1,33 @@
+name: Fetch Firmware Payload
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 */14 * *' # 2 weeks
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Run Script
+        run: python scripts/fetch_firmware.py
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          add-paths: 'assets/*.json'
+          commit-message: 'Firmware payload updated'
+          branch: fetch-firmware-payload
+          title: 'Firmware payload updated'
+          reviewers: lunDreame34
