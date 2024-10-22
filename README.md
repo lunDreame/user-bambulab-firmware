@@ -11,7 +11,7 @@
 2. [펌웨어 업데이트용 사이트](https://bambu.pages.dev)  
 
 ## 정보 제공 방법
-1. [이 Colab 노트북](https://colab.research.google.com/drive/1O0UY-EI508kTdugvz3_FvxBXtQuMXBXF?usp=sharing)을 사용하여 정보를 제공해 주세요.
+1. [이 Colab 노트북](https://colab.research.google.com/github/lunDreame/user-bambulab-firmware/blob/main/scripts/get_bambulab_printer_firmware_url.ipynb)을 사용하여 정보를 제공해 주세요.
 2. Bambu Lab 계정 정보가 필요합니다. 계정에 해당 디바이스가 바인딩되어 있어야 합니다.
 3. 일부 디바이스의 경우 최신 버전 정보가 부족할 수 있습니다. 해당 디바이스 사용자의 정보 제공이 도움이 됩니다.
 4. PR을 통해 새롭게 변경된 펌웨어 url을 제공해 주세요.
@@ -38,7 +38,7 @@
 2. [Firmware Update Site](https://bambu.pages.dev)
 
 ## How to Provide Information
-1. Please use [this Colab notebook](https://colab.research.google.com/drive/1O0UY-EI508kTdugvz3_FvxBXtQuMXBXF?usp=sharing) to provide information.
+1. Please use [this Colab notebook](https://colab.research.google.com/github/lunDreame/user-bambulab-firmware/blob/main/scripts/get_bambulab_printer_firmware_url.ipynb) to provide information.
 2. A Bambu Lab account is required. The device must be bound to your account.
 3. For some devices, the latest version information may be lacking. Information from users of those devices is helpful.
 4. Contribute us via PR
