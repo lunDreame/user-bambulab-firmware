@@ -9,7 +9,7 @@
                 "version": "01.06.01.02",
                 "url": "https://public-cdn.bblmw.com/upgrade/device/C11/01.06.01.02/product/e70b5f9580/ota-p003_v01.06.01.02-20240926182734.json.sig",
                 "force_update": false,
-                "description": "Version OTA 01.06.01.00\nFeature Optimization\n1. Optimized system stability.\nBug Fix\n1. Fixed intermittent time sync problem. \n2. Fixed intermittent manual calibration failure. \n3. Fixed a low chance flow calibration K factor not effective issue.",
+                "description": "# Verison 01.06.01.02\n\n## Improvement\n\n1. Improved printing stability.\n2. Optimized read-and-write compatibility for MicroSD cards.\n",
                 "status": "release"
             },
             "ams": [
