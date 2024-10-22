@@ -6,7 +6,7 @@ on:
     - cron: '0 0 */14 * *' # 2 weeks
 
 jobs:
-  fetch:
+  fetch_firmware:
     runs-on: ubuntu-latest
 
     env:
@@ -29,7 +29,7 @@ jobs:
         run: python scripts/fetch_firmware.py
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v4
         with:
           add-paths: 'assets/*.json'
           commit-message: 'Firmware payload updated'

@@ -96,7 +96,7 @@ class FetchFirmwarePayload:
             selected_device = devices[selected_index]
             self.device_id = selected_device["dev_id"]
             
-            dev_product_name = selected_device["dev_model_name"]
+            dev_product_name = selected_device["dev_product_name"]
             self.extract_firmware_payload(dev_product_name)
         except (IndexError, ValueError) as e:
             print(f"[-] Invalid device selection: {e}")
@@ -120,18 +120,18 @@ class FetchFirmwarePayload:
                 
                 if product_name == "P1P":
                     for i, p_name in enumerate(["P1P", "P1S"]):
-                        updater = JsonUpdater(f"../assets/{p_name}_AMS.json")
+                        updater = JsonUpdater(f"./assets/{p_name}_AMS.json")
                         updater.update_firmware_info(
-                            version=device["firmware"]["version"], 
-                            url=device["firmware"]["url"].replace("C11", f"C1{i + 1}"), 
-                            description=device["firmware"]["description"]
+                            version=device["firmware"][0]["version"], 
+                            url=device["firmware"][0]["url"].replace("C11", f"C1{i + 1}"), 
+                            description=device["firmware"][0]["description"]
                         )
                 else:
-                    updater = JsonUpdater(f"../assets/{product_name}_AMS.json")
+                    updater = JsonUpdater(f"./assets/{product_name}_AMS.json")
                     updater.update_firmware_info(
-                        version=device["firmware"]["version"], 
-                        url=device["firmware"]["url"], 
-                        description=device["firmware"]["description"]
+                        version=device["firmware"][0]["version"], 
+                        url=device["firmware"][0]["url"], 
+                        description=device["firmware"][0]["description"]
                     )
         except requests.RequestException as e:
             print(f"[-] Error getting version info: {e}")
