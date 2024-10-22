@@ -23,6 +23,11 @@ class BambuLabOTA:
 
         self.login()
 
+    def mask_serial(self, serial: str) -> str:
+        if not serial:
+            return "N/A"
+        return f"{serial[:4]}{'*' * (len(serial) - 4)}"
+
     def login(self):
         try:
             response = requests.post(
@@ -33,12 +38,12 @@ class BambuLabOTA:
             response.raise_for_status()
             self.access_token = response.cookies.get("token")
             if response.status_code == 200 and not response.json().get("tfaKey"):
-                print("Login Successful.")
+                print("[+] Login Successful")
                 self.get_user_devices()
             else:
-                print("Login Failed.")
+                print("[-] Login Failed")
         except requests.RequestException as e:
-            print(f"An error occurred during login: {e}")
+            print(f"[-] Error during login: {e}")
 
     def get_user_devices(self):
         headers = {
@@ -54,23 +59,26 @@ class BambuLabOTA:
             devices = response.json().get("devices", [])
             self.select_device(devices)
         except requests.RequestException as e:
-            print(f"An error occurred while getting bound devices: {e}")
+            print(f"[-] Error getting devices: {e}")
 
     def select_device(self, devices: List[Dict]):
         if not devices:
-            print("No devices found.")
+            print("[-] No devices found")
             return
         try:
             selected_index = 0
             selected_device = devices[selected_index]
             self.device_id = selected_device["dev_id"]
-            print(f"\n선택된 디바이스 정보:")
-            print(f"Device ID: {selected_device['dev_id']}")
-            print(f"Device Name: {selected_device.get('name', 'N/A')}")
-            print(f"Device Model: {selected_device.get('dev_model', 'N/A')}\n")
+            
+            print("\n[+] Selected Device Information")
+            print("================================")
+            print(f"Model: {selected_device.get('dev_model', 'N/A')}")
+            print(f"Name: {selected_device.get('name', 'N/A')}")
+            print("================================\n")
+            
             self.get_device_version()
         except (IndexError, ValueError) as e:
-            print(f"Invalid index selected: {e}")
+            print(f"[-] Invalid device selection: {e}")
 
     def get_device_version(self):
         headers = {
@@ -85,39 +93,40 @@ class BambuLabOTA:
             response.raise_for_status()
             device_version_info = response.json()
             
-            print("\n펌웨어 정보:")
-            print("=" * 50)
+            print("[+] Current Firmware Details")
+            print("================================")
             devices = device_version_info.get("devices", [])
             if devices:
                 device = devices[0]
-                print(f"Device Model: {device.get('dev_model', 'N/A')}")
-                print(f"Device ID: {device.get('dev_id', 'N/A')}")
+                print(f"Model: {device.get('dev_model', 'N/A')}")
                 
                 for firmware in device.get("firmware", []):
-                    print("\nFirmware Details:")
+                    print("\nFirmware:")
                     print(f"Version: {firmware.get('version', 'N/A')}")
                     print(f"Module: {firmware.get('module', 'N/A')}")
-                    print(f"Description: {firmware.get('description', 'N/A')}")
-                    print(f"URL: {firmware.get('url', 'N/A')}")
-                    print(f"Force Update: {firmware.get('force_update', False)}")
                     print(f"Status: {firmware.get('status', 'N/A')}")
-            print("=" * 50)
-            print()
+                    if firmware.get('description'):
+                        print(f"Description: {firmware.get('description')}")
+            print("================================\n")
             
             printer_name, firmware_optional = self.construct_firmware_optional(device_version_info)
             
             for version in ("C11", "C12"):
                 firmware_optional_copy = firmware_optional.copy()
+                original_url = firmware_optional_copy["upgrade"]["firmware_optional"]["firmware"]["url"]
                 firmware_optional_copy["upgrade"]["firmware_optional"]["firmware"]["url"] = \
-                firmware_optional_copy["upgrade"]["firmware_optional"]["firmware"]["url"].replace("C11", version)
+                original_url.replace("C11", version)
                 
-                print(f"\n{version} 펌웨어 옵션:")
-                print(json.dumps(firmware_optional_copy, indent=4, ensure_ascii=False))
-                print("=" * 50)
+                print(f"[+] {version} Firmware Configuration")
+                print("================================")
+                firmware_info = firmware_optional_copy["upgrade"]["firmware_optional"]["firmware"]
+                print(f"Version: {firmware_info['version']}")
+                print(f"Status: {firmware_info['status']}")
+                print("================================\n")
                 
                 self.compare_and_create_pull_request(printer_name, firmware_optional_copy)
         except requests.RequestException as e:
-            print(f"An error occurred while getting the device version: {e}")
+            print(f"[-] Error getting version info: {e}")
 
     def construct_firmware_optional(self, device_version_info: Dict) -> Tuple[str, Dict]:
         device_id_map = {
@@ -129,7 +138,7 @@ class BambuLabOTA:
             "039": "A1"
         }
         printer_name = next((name for prefix, name in device_id_map.items() if self.device_id.startswith(prefix)), "Unknown")
-        print(f"\n프린터 모델: {printer_name}")
+        print(f"[+] Device: {printer_name}\n")
         
         firmware_info = device_version_info["devices"][0]["firmware"][0]
         firmware_optional = {
@@ -176,24 +185,26 @@ class BambuLabOTA:
             old_content = contents.decoded_content.decode("utf-8")
             old_ota_version = json.loads(old_content)["upgrade"]["firmware_optional"]["firmware"]["version"]
 
-            print(f"\n버전 비교:")
-            print(f"현재 버전: {old_ota_version}")
-            print(f"새 버전: {new_ota_version}")
+            print("[+] Version Check")
+            print("================================")
+            print(f"Current: {old_ota_version}")
+            print(f"New: {new_ota_version}")
+            print("================================\n")
 
             if new_ota_version == old_ota_version:
-                print("No changes detected in the OTA version.")
+                print("[=] No version changes detected")
                 return
             else:
-                print("Changes detected, updating file and creating a pull request.")
+                print("[+] New version detected - Creating PR")
                 self.update_file(repo, file_path, new_content, contents.sha, branch_name)
         except GithubException as e:
             if e.status == 404:
-                print("File does not exist, creating a new one.")
+                print("[+] File not found - Creating new")
                 try:
                     self.create_branch(repo, branch_name)
                     self.create_file(repo, file_path, new_content, branch_name)
                 except GithubException as e:
-                    print(f"Error creating branch or file: {e}")
+                    print(f"[-] Error creating file: {e}")
                     return
 
         self.create_pull_request(repo, branch_name, printer_name)
@@ -210,9 +221,9 @@ class BambuLabOTA:
                 branch=branch_name,
                 author=InputGitAuthor(self.author_name, self.author_email)
             )
-            print(f"File {file_path} updated successfully.")
+            print("[+] File updated successfully")
         except GithubException as e:
-            print(f"Error updating file: {e}")
+            print(f"[-] Error updating file: {e}")
 
     def create_file(self, repo, file_path, content, branch_name):
         try:
@@ -226,9 +237,9 @@ class BambuLabOTA:
                 branch=branch_name,
                 author=InputGitAuthor(self.author_name, self.author_email)
             )
-            print(f"File {file_path} created successfully.")
+            print("[+] File created successfully")
         except GithubException as e:
-            print(f"Error creating file or branch: {e}")
+            print(f"[-] Error creating file: {e}")
 
     def create_pull_request(self, repo, branch_name, printer_name):
         try:
@@ -238,9 +249,9 @@ class BambuLabOTA:
                 head=branch_name,
                 base="main"
             )
-            print("Pull request created successfully.")
+            print("[+] Pull request created successfully")
         except GithubException as e:
-            print(f"Error creating pull request: {e}")
+            print(f"[-] Error creating PR: {e}")
 
 if __name__ == '__main__':
     BambuLabOTA()
