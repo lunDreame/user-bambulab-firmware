@@ -1,35 +1,33 @@
 name: Fetch Firmware Payload
-
 on:
   workflow_dispatch:
   schedule:
     - cron: '0 0 */14 * *' # 2 weeks
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   fetch_firmware:
     runs-on: ubuntu-latest
-
     env:
       BAMBU_ACCOUNT: ${{ secrets.BAMBU_ACCOUNT }}
       BAMBU_PASSWORD: ${{ secrets.BAMBU_PASSWORD }}
-
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
       - name: Install Dependencies
         run: pip install requests
-
       - name: Run Script
         run: python scripts/fetch_firmware.py
-
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           add-paths: 'assets/*.json'
           commit-message: 'Firmware payload updated'
           branch: fetch-firmware-payload
