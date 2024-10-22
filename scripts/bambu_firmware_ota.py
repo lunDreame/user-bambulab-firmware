@@ -17,12 +17,19 @@ class BambuLabOTA:
         self.device_id = None
         self.access_token = None
         self.github = Github(self.github_token)
+        self.headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
 
         self.login()
 
     def login(self):
         try:
-            response = requests.post(self.login_url, data={"account": self.account, "password": self.password})
+            response = requests.post(
+                self.login_url, 
+                headers=self.headers,
+                data={"account": self.account, "password": self.password}
+            )
             response.raise_for_status()
             self.access_token = response.cookies.get("token")
             if response.status_code == 200 and not response.json().get("tfaKey"):
@@ -34,8 +41,15 @@ class BambuLabOTA:
             print(f"An error occurred during login: {e}")
 
     def get_user_devices(self):
+        headers = {
+            **self.headers,
+            "authorization": f"Bearer {self.access_token}"
+        }
         try:
-            response = requests.get(f"{self.api_url}/v1/iot-service/api/user/bind", headers={"authorization": f"Bearer {self.access_token}"})
+            response = requests.get(
+                f"{self.api_url}/v1/iot-service/api/user/bind", 
+                headers=headers
+            )
             response.raise_for_status()
             devices = response.json().get("devices", [])
             self.select_device(devices)
@@ -54,8 +68,15 @@ class BambuLabOTA:
             print(f"Invalid index selected: {e}")
 
     def get_device_version(self):
+        headers = {
+            **self.headers,
+            "authorization": f"Bearer {self.access_token}"
+        }
         try:
-            response = requests.get(f"{self.api_url}/v1/iot-service/api/user/device/version?dev_id={self.device_id}", headers={"authorization": f"Bearer {self.access_token}"})
+            response = requests.get(
+                f"{self.api_url}/v1/iot-service/api/user/device/version?dev_id={self.device_id}", 
+                headers=headers
+            )
             response.raise_for_status()
             device_version_info = response.json()
             printer_name, firmware_optional = self.construct_firmware_optional(device_version_info)
