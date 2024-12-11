@@ -6,13 +6,15 @@
         "src_id": 2,
         "firmware_optional": {
             "firmware": {
-                "version": "01.03.01.00",
-                "url": "https://public-cdn.bblmw.com/upgrade/device/N2S/01.03.01.00/product/b1f14c0ee3/ota-n2s_v01.03.01.00-20240721190748.json.sig",
+                "version": "01.04.00.00",
+                "url": "https://public-cdn.bblmw.com/upgrade/device/N1/01.04.00.00/product/1496eccbb7/ota-n1_v01.04.00.00-20241210144819.json.sig",
                 "force_update": false,
                 "description": "",
                 "status": "release"
             },
-            "ams": []
+            "ams": [
+                {}
+            ]
         }
     }
 }
