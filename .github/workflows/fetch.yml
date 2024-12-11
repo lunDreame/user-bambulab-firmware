@@ -1,4 +1,5 @@
 name: Fetch Firmware
+
 on:
   workflow_dispatch:
   schedule:
@@ -13,14 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      
       - name: Install Dependencies
         run: pip install aiohttp beautifulsoup4
+      
       - name: Run Script
         run: python scripts/fetch.py
+      
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
@@ -29,9 +34,7 @@ jobs:
           commit-message: 'Firmware info updated'
           branch: fetch-firmware
           title: 'Firmware info updated'
-          reviewers: 
-            - lunDreame
-            - yeorinhieut
+          reviewers: lunDreame, yeorinhieut
           body: |
             ## Firmware Info Update
             This pull request contains the latest firmware info fetched from the server.
