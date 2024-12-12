@@ -12,9 +12,7 @@
                 "description": "",
                 "status": "release"
             },
-            "ams": [
-                {}
-            ]
+            "ams": []
         }
     }
 }
