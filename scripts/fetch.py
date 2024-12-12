@@ -33,9 +33,7 @@ def create_firmware_json(offline_firmware_url):
         print("Failed to parse the URL.")
         return None
     
-    a1_series_ams_json = {              # A1, A1 Mini
-
-    }
+    a1_series_ams_json = {}             # A1, A1 Mini
     other_series_ams_json = {           # X1, P1, X1E
         "dev_model_name": "BL-A001",
         "address": 0,
@@ -66,10 +64,13 @@ def create_firmware_json(offline_firmware_url):
                     "description": "",
                     "status": "release"
                 },
-                "ams": [a1_series_ams_json if info[0] in {"N2S", "N1"} else other_series_ams_json]
+                "ams": []
             }
         }
     }
+    if info[0] not in {"N2S", "N1"}:
+        firmware_json["upgrade"]["firmware_optional"]["ams"].append(other_series_ams_json)
+        
     print(f"Firmware JSON: {firmware_json}")
 
     # Save the JSON to a file
