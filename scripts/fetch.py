@@ -83,11 +83,11 @@ def create_firmware_json(offline_firmware_url):
 def save_firmware_json(info, firmware_json):
     """Saves the firmware JSON to a file based on the info key."""
     file_name_mapping = {
-        "N2S": "a1_ams.json",
-        "N1": "a1_mini_ams.json",
-        "BL-P001": "x1_series_ams.json",
-        "C11": "p1_series_ams.json",
-        "C13": "x1e_ams.json"
+        "N2S": "./assets/a1_ams.json",
+        "N1": "./assets/a1_mini_ams.json",
+        "BL-P001": "./assets/x1_series_ams.json",
+        "C11": "./assets/p1_series_ams.json",
+        "C13": "./assets/x1e_ams.json"
     }
 
     file_name = file_name_mapping.get(info[0])
