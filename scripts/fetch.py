@@ -33,16 +33,18 @@ def create_firmware_json(offline_firmware_url):
         print("Failed to parse the URL.")
         return None
     
-    a1_series_ams_json = {}             # A1, A1 Mini
+    a1_series_ams_json = []             # A1, A1 Mini
+    # https://public-cdn.bblmw.com/upgrade/device/??/00.00.07.94/product/1496eccbb7??/ams-f1-ota_v00.00.07.94-20240703100634.json.sig
+    # invalid url
     other_series_ams_json = {           # X1, P1, X1E
         "dev_model_name": "BL-A001",
         "address": 0,
         "device_id": "",
         "firmware": [
             {
-                "version": "00.00.06.40",
+                "version": "00.00.06.49",
                 "force_update": False,
-                "url": "https://public-cdn.bambulab.com/upgrade/device/BL-A001/00.00.06.40/product/ams-ota_v00.00.06.40-20230906131441.json.sig",
+                "url": "https://public-cdn.bblmw.com/upgrade/device/BL-A001/00.00.06.49/product/ef67633af9/ams-ota_v00.00.06.49-20241021110111.json.sig",
                 "description": "",
                 "status": "testing"
             }
@@ -64,13 +66,10 @@ def create_firmware_json(offline_firmware_url):
                     "description": "",
                     "status": "release"
                 },
-                "ams": []
+                "ams": a1_series_ams_json if info[0] in {"N2S", "N1"} else [other_series_ams_json]
             }
         }
     }
-    if info[0] not in {"N2S", "N1"}:
-        firmware_json["upgrade"]["firmware_optional"]["ams"].append(other_series_ams_json)
-        
     print(f"Firmware JSON: {firmware_json}")
 
     # Save the JSON to a file
