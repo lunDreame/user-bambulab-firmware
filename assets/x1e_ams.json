@@ -19,9 +19,9 @@
                     "device_id": "",
                     "firmware": [
                         {
-                            "version": "00.00.06.40",
+                            "version": "00.00.06.49",
                             "force_update": false,
-                            "url": "https://public-cdn.bambulab.com/upgrade/device/BL-A001/00.00.06.40/product/ams-ota_v00.00.06.40-20230906131441.json.sig",
+                            "url": "https://public-cdn.bblmw.com/upgrade/device/BL-A001/00.00.06.49/product/ef67633af9/ams-ota_v00.00.06.49-20241021110111.json.sig",
                             "description": "",
                             "status": "testing"
                         }
