@@ -1,34 +1,13 @@
 {
-    "user_id": "0",
-    "upgrade": {
-        "sequence_id": "0",
-        "command": "upgrade_history",
-        "src_id": 2,
-        "firmware_optional": {
-            "firmware": {
-                "version": "01.08.02.00",
-                "url": "https://public-cdn.bblmw.com/upgrade/device/BL-P001/01.08.02.00/product/e750866b34/ota-p001_v01.08.02.00-20240812145251.json.sig",
-                "force_update": false,
-                "description": "",
-                "status": "release"
-            },
-            "ams": [
-                {
-                    "dev_model_name": "BL-A001",
-                    "address": 0,
-                    "device_id": "",
-                    "firmware": [
-                        {
-                            "version": "00.00.06.49",
-                            "force_update": false,
-                            "url": "https://public-cdn.bblmw.com/upgrade/device/BL-A001/00.00.06.49/product/ef67633af9/ams-ota_v00.00.06.49-20241021110111.json.sig",
-                            "description": "",
-                            "status": "testing"
-                        }
-                    ],
-                    "firmware_current": null
-                }
-            ]
-        }
-    }
+  "upgrade": {
+    "command": "upgrade_confirm",
+    "module": "ota",
+    "reason": "",
+    "result": "success",
+    "sequence_id": "2006",
+    "src_id": 2,
+    "upgrade_type": 4,
+    "url": "http://127.0.0.1/ota-v01.08.02.00-20240812145251.json",
+    "version": "01.08.02.00"
+  }
 }
