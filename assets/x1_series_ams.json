@@ -6,8 +6,8 @@
         "src_id": 2,
         "firmware_optional": {
             "firmware": {
-                "version": "01.08.02.00",
-                "url": "https://public-cdn.bblmw.com/upgrade/device/BL-P001/01.08.02.00/product/e750866b34/ota-p001_v01.08.02.00-20240812145251.json.sig",
+                "version": "01.08.05.00",
+                "url": "https://public-cdn.bblmw.com/upgrade/device/BL-P001/01.08.05.00/product/02c0a59ff7/ota-p001_v01.08.05.00-20250312100742.json.sig",
                 "force_update": false,
                 "description": "",
                 "status": "release"
